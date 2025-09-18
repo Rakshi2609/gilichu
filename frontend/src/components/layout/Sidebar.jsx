@@ -1,7 +1,16 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import { IconDashboard, IconNotes, IconBell, IconPlus, IconHourglass, IconCheckCircle, IconChart, IconAlert, IconUser, IconSettings } from '../common/Icons';
+import { IconDashboard, IconPredict, IconNotes, IconBell, IconPlus, IconHourglass, IconCheckCircle, IconChart, IconAlert, IconUser, IconSettings } from '../common/Icons';
+
+// Custom SVG icon for Predict Issues
+// const IconPredict = () => (
+//     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+//         <circle cx="10" cy="10" r="9" stroke="#2563eb" strokeWidth="2" fill="#eff6ff" />
+//         <path d="M10 5V10L13 13" stroke="#2563eb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+//         <circle cx="10" cy="10" r="1.5" fill="#2563eb" />
+//     </svg>
+// );
 //import '../../styles/sidebar.css';
 const Sidebar = ({ isOpen }) => {
     const { isGovernment, isCitizen } = useAuth();
@@ -95,6 +104,15 @@ const Sidebar = ({ isOpen }) => {
                                 >
                                     <span className="icon"><IconAlert /></span>
                                     <span>Manage Alerts</span>
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
+                                    to="/date"
+                                    className={({ isActive }) => isActive ? 'active' : ''}
+                                >
+                                    <span className="icon"><IconPredict /></span>
+                                    <span>Predict Issues</span>
                                 </NavLink>
                             </li>
                         </>

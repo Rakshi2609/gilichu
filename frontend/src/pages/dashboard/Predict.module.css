@@ -1,0 +1,118 @@
+/* Predict.module.css - Vanilla CSS for Predict.jsx */
+
+.wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #f3f4f6;
+    padding: 1rem;
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+}
+
+.card {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 1.25rem;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+    width: 100%;
+    max-width: 32rem;
+}
+
+.heading {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #1f2937;
+}
+
+.error {
+    background: #fee2e2;
+    border: 1px solid #f87171;
+    color: #b91c1c;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.label {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.select,
+.input {
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    color: #1f2937;
+    font-size: 1rem;
+    outline: none;
+    transition: box-shadow 0.2s;
+}
+
+.select:focus,
+.input:focus {
+    box-shadow: 0 0 0 2px #2563eb33;
+    border-color: #2563eb;
+}
+
+.button {
+    width: 100%;
+    padding: 0.75rem;
+    font-weight: 600;
+    color: #fff;
+    background: #2563eb;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.button:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+}
+
+.button:not(:disabled):hover {
+    background: #1d4ed8;
+    transform: scale(1.03);
+}
+
+.result {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: #eff6ff;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 8px 0 rgba(59, 130, 246, 0.08);
+    border: 1px solid #bfdbfe;
+}
+
+.resultTitle {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #1e40af;
+    margin-bottom: 0.5rem;
+}
+
+.resultText {
+    font-size: 1.125rem;
+    color: #374151;
+    margin-bottom: 0.25rem;
+}
+
+.resultHighlight {
+    color: #2563eb;
+    font-weight: bold;
+}

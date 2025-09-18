@@ -15,6 +15,7 @@ const issueRoutes = require('./routes/issue.routes');
 const analyticsRoutes = require('./routes/analytics.routes');
 const notificationRoutes = require('./routes/notification.routes');
 const alertRoutes = require('./routes/alert.routes');
+const predictRoutes = require('./routes/predict.routes');
 const uploadRoutes = require('./routes/upload.routes');
 
 const app = express();
@@ -80,6 +81,7 @@ app.use('/api/analytics', analyticsRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/alerts', alertRoutes);
 app.use('/api/uploads', uploadRoutes);
+app.use('/api/predict', predictRoutes);
 
 // Root route
 app.get('/', (req, res) => {
