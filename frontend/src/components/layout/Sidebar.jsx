@@ -17,8 +17,9 @@ const Sidebar = ({ isOpen }) => {
 
     const sidebarClass = isOpen ? "sidebar open" : "sidebar";
 
+    // Hide sidebar on mobile using CSS
     return (
-        <aside className={sidebarClass}>
+        <aside className={sidebarClass + ' sidebar-hide-mobile'}>
             {/* <div className="sidebar-header">
                 <h3>Dashboard</h3>
             </div> */}
