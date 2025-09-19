@@ -48,35 +48,38 @@ const Header = ({ onHamburgerClick, isSidebarOpen, showSidebarHamburger }) => {
         }
     }, [showSidebarHamburger, isSidebarOpen]);
 
+    // Hide hamburger if on mobile (same as BottomNav)
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 900;
     return (
         <header className="header">
             <div className="container">
                 <div className="header-content">
-                    <button
-                        className={`hamburger${(showSidebarHamburger ? isSidebarOpen : navOpen) ? ' open' : ''
-                            }`}
-                        onClick={() => {
-                            if (showSidebarHamburger) {
-                                setNavOpen(false);
-                                onHamburgerClick && onHamburgerClick();
-                            } else {
-                                setNavOpen((prev) => !prev);
+                    {!isMobile && (
+                        <button
+                            className={`hamburger${(showSidebarHamburger ? isSidebarOpen : navOpen) ? ' open' : ''}`}
+                            onClick={() => {
+                                if (showSidebarHamburger) {
+                                    setNavOpen(false);
+                                    onHamburgerClick && onHamburgerClick();
+                                } else {
+                                    setNavOpen((prev) => !prev);
+                                }
+                            }}
+                            aria-label={
+                                (showSidebarHamburger ? isSidebarOpen : navOpen)
+                                    ? 'Close menu'
+                                    : 'Open menu'
                             }
-                        }}
-                        aria-label={
-                            (showSidebarHamburger ? isSidebarOpen : navOpen)
-                                ? 'Close menu'
-                                : 'Open menu'
-                        }
-                        aria-expanded={showSidebarHamburger ? isSidebarOpen : navOpen}
-                        aria-controls={showSidebarHamburger ? 'sidebar' : 'main-nav'}
-                    >
-                        <span className="bar"></span>
-                        <span className="bar"></span>
-                        <span className="bar"></span>
-                    </button>
+                            aria-expanded={showSidebarHamburger ? isSidebarOpen : navOpen}
+                            aria-controls={showSidebarHamburger ? 'sidebar' : 'main-nav'}
+                        >
+                            <span className="bar"></span>
+                            <span className="bar"></span>
+                            <span className="bar"></span>
+                        </button>
+                    )}
 
-                   
+
                     <Link to="/" className="logo hide-on-mobile">
                         <h1>CivicPulse</h1>
                     </Link>
@@ -88,7 +91,7 @@ const Header = ({ onHamburgerClick, isSidebarOpen, showSidebarHamburger }) => {
                             ref={navRef}
                             aria-hidden={!navOpen && window.innerWidth <= 900}
                         >
-                            <ul className="nav-links">
+                            {/* <ul className="nav-links">
                                 {isAuthenticated && (
                                     <li className="hide-on-mobile">
                                         <Link
@@ -115,17 +118,17 @@ const Header = ({ onHamburgerClick, isSidebarOpen, showSidebarHamburger }) => {
                                 )}
                                 {isAuthenticated && isGovernment && (
                                     <li>
-                                        {/* <Link
+                                         <Link
                                             to="/analytics"
                                             className={isActive('/analytics') ? 'active' : ''}
                                             onClick={handleNavLinkClick}
                                             tabIndex={navOpen || window.innerWidth > 900 ? 0 : -1}
                                         >
                                             Analytics
-                                        </Link> */}
+                                        </Link> 
                                     </li>
                                 )}
-                            </ul>
+                            </ul> */}
                         </nav>
                     )}
 

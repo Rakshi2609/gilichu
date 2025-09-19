@@ -1,3 +1,6 @@
+import BottomNav from './components/layout/BottomNav';
+import BottomNavGov from './components/layout/BottomNavGov';
+import useAuth from './hooks/useAuth';
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
@@ -25,7 +28,7 @@ import NotFound from './pages/errors/NotFound';
 import Profile from './pages/profile/Profile';
 import Settings from './pages/settings/Settings';
 import Notifications from './pages/notifications/Notifications';
-import Predict from './pages/dashboard/predict.jsx';
+import Predict from './pages/dashboard/Predict.jsx';
 
 // Role-based route components
 const CitizenRoute = ({ children }) => {
@@ -47,6 +50,17 @@ const GovernmentRoute = ({ children }) => {
 const App = () => {
   // We'll remove the global Header since Home page has its own custom header
   // and the other layouts should handle their own headers
+  // Show bottom nav only on mobile, and role-based
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 900;
+  let BottomNavComponent = null;
+  // Use a wrapper to access auth context
+  function BottomNavRole() {
+    const { user } = useAuth();
+    if (!isMobile) return null;
+    if (user?.role === 'government') return <BottomNavGov />;
+    if (user?.role === 'citizen') return <BottomNav />;
+    return null;
+  }
   return (
     <Router>
       <ThemeProvider>
@@ -54,122 +68,123 @@ const App = () => {
           <AuthProvider>
             <SocketProvider>
               <ConsentPrompts />
+              <BottomNavRole />
               <Routes>
-            {/* Public Routes */}
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+                {/* Public Routes */}
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
 
-            {/* Protected Routes */}
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            />
+                {/* Protected Routes */}
+                <Route
+                  path="/dashboard"
+                  element={
+                    <ProtectedRoute>
+                      <Dashboard />
+                    </ProtectedRoute>
+                  }
+                />
 
-            {/* User account routes */}
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute>
-                  <Profile />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/settings"
-              element={
-                <ProtectedRoute>
-                  <Settings />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/dashboard/notifications"
-              element={
-                <ProtectedRoute>
-                  <Notifications />
-                </ProtectedRoute>
-              }
-            />
+                {/* User account routes */}
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedRoute>
+                      <Profile />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/settings"
+                  element={
+                    <ProtectedRoute>
+                      <Settings />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/dashboard/notifications"
+                  element={
+                    <ProtectedRoute>
+                      <Notifications />
+                    </ProtectedRoute>
+                  }
+                />
 
-            {/* Complete Profile - Protected */}
-            <Route
-              path="/complete-profile"
-              element={
-                <ProtectedRoute>
-                  <CompleteProfile />
-                </ProtectedRoute>
-              }
-            />
+                {/* Complete Profile - Protected */}
+                <Route
+                  path="/complete-profile"
+                  element={
+                    <ProtectedRoute>
+                      <CompleteProfile />
+                    </ProtectedRoute>
+                  }
+                />
 
-            {/* Citizen Routes */}
-            <Route
-              path="/report-issue"
-              element={
-                <CitizenRoute>
-                  <ReportIssue />
-                </CitizenRoute>
-              }
-            />
-            <Route
-              path="/dashboard/my-issues"
-              element={
-                <CitizenRoute>
-                  <MyIssues />
-                </CitizenRoute>
-              }
-            />
+                {/* Citizen Routes */}
+                <Route
+                  path="/report-issue"
+                  element={
+                    <CitizenRoute>
+                      <ReportIssue />
+                    </CitizenRoute>
+                  }
+                />
+                <Route
+                  path="/dashboard/my-issues"
+                  element={
+                    <CitizenRoute>
+                      <MyIssues />
+                    </CitizenRoute>
+                  }
+                />
 
-            {/* Government Routes */}
-            <Route
-              path="/dashboard/all-issues"
-              element={
-                <GovernmentRoute>
-                  <AllIssues />
-                </GovernmentRoute>
-              }
-            />
-            <Route
-              path="/dashboard/pending-issues"
-              element={
-                <GovernmentRoute>
-                  <PendingIssues />
-                </GovernmentRoute>
-              }
-            />
-            <Route
-              path="/dashboard/resolved-issues"
-              element={
-                <GovernmentRoute>
-                  <ResolvedIssues />
-                </GovernmentRoute>
-              }
-            />
-            <Route
-              path="/dashboard/analytics"
-              element={
-                <GovernmentRoute>
-                  <Analytics />
-                </GovernmentRoute>
-              }
-            />
-            <Route path="/date" element={<Predict />} />
-            <Route
-              path="/dashboard/alerts"
-              element={
-                <GovernmentRoute>
-                  <Alerts />
-                </GovernmentRoute>
-              }
-            />
+                {/* Government Routes */}
+                <Route
+                  path="/dashboard/all-issues"
+                  element={
+                    <GovernmentRoute>
+                      <AllIssues />
+                    </GovernmentRoute>
+                  }
+                />
+                <Route
+                  path="/dashboard/pending-issues"
+                  element={
+                    <GovernmentRoute>
+                      <PendingIssues />
+                    </GovernmentRoute>
+                  }
+                />
+                <Route
+                  path="/dashboard/resolved-issues"
+                  element={
+                    <GovernmentRoute>
+                      <ResolvedIssues />
+                    </GovernmentRoute>
+                  }
+                />
+                <Route
+                  path="/dashboard/analytics"
+                  element={
+                    <GovernmentRoute>
+                      <Analytics />
+                    </GovernmentRoute>
+                  }
+                />
+                <Route path="/date" element={<Predict />} />
+                <Route
+                  path="/dashboard/alerts"
+                  element={
+                    <GovernmentRoute>
+                      <Alerts />
+                    </GovernmentRoute>
+                  }
+                />
 
-            {/* Error Routes */}
-            <Route path="/404" element={<NotFound />} />
-            <Route path="*" element={<Navigate to="/404" replace />} />
+                {/* Error Routes */}
+                <Route path="/404" element={<NotFound />} />
+                <Route path="*" element={<Navigate to="/404" replace />} />
               </Routes>
             </SocketProvider>
           </AuthProvider>
