@@ -4,6 +4,7 @@ const { validationResult } = require('express-validator');
 const { computePriority } = require('../utils/priority');
 const { uploadBuffer } = require('../config/cloudinary');
 const { log, warn, error } = require('../utils/logger');
+const mailController = require('./mail.controller');
 
 class IssueController {
     // Get all issues with comprehensive filtering and pagination
@@ -884,6 +885,19 @@ class IssueController {
                     type: 'resolution',
                     timestamp: new Date()
                 });
+
+                // Save the issue first to ensure all data is persisted
+                await issue.save();
+
+                // Send email notifications to all active reporters
+                try {
+                    log('[updateIssueStatus] Sending resolution emails for issue:', issue._id.toString());
+                    const emailResult = await mailController.sendIssueResolutionEmail(issue._id.toString(), req.user.id);
+                    log('[updateIssueStatus] Email notification result:', emailResult);
+                } catch (emailError) {
+                    // Log the error but don't fail the status update
+                    error('[updateIssueStatus] Failed to send resolution emails:', emailError);
+                }
             } else {
                 // Add status change notification
                 issue.notifications.push({
@@ -891,9 +905,10 @@ class IssueController {
                     type: 'status_change',
                     timestamp: new Date()
                 });
+                
+                // Save the issue for non-resolution status changes
+                await issue.save();
             }
-
-            await issue.save();
 
             // Propagate status to duplicates (read-only display consistency) except if status is pending and duplicates may remain individualized
             if (Array.isArray(issue.duplicates) && issue.duplicates.length) {
