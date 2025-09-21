@@ -109,7 +109,7 @@ const Sidebar = ({ isOpen }) => {
                             </li>
                             <li>
                                 <NavLink
-                                    to="/date"
+                                    to="/predict"
                                     className={({ isActive }) => isActive ? 'active' : ''}
                                 >
                                     <span className="icon"><IconPredict /></span>

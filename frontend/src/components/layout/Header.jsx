@@ -55,28 +55,29 @@ const Header = ({ onHamburgerClick, isSidebarOpen, showSidebarHamburger }) => {
             <div className="container">
                 <div className="header-content">
                     {!isMobile && (
-                        <button
-                            className={`hamburger${(showSidebarHamburger ? isSidebarOpen : navOpen) ? ' open' : ''}`}
-                            onClick={() => {
-                                if (showSidebarHamburger) {
-                                    setNavOpen(false);
-                                    onHamburgerClick && onHamburgerClick();
-                                } else {
-                                    setNavOpen((prev) => !prev);
-                                }
-                            }}
-                            aria-label={
-                                (showSidebarHamburger ? isSidebarOpen : navOpen)
-                                    ? 'Close menu'
-                                    : 'Open menu'
-                            }
-                            aria-expanded={showSidebarHamburger ? isSidebarOpen : navOpen}
-                            aria-controls={showSidebarHamburger ? 'sidebar' : 'main-nav'}
-                        >
-                            <span className="bar"></span>
-                            <span className="bar"></span>
-                            <span className="bar"></span>
-                        </button>
+                        // <button
+                        //     className={`hamburger${(showSidebarHamburger ? isSidebarOpen : navOpen) ? ' open' : ''}`}
+                        //     onClick={() => {
+                        //         if (showSidebarHamburger) {
+                        //             setNavOpen(false);
+                        //             onHamburgerClick && onHamburgerClick();
+                        //         } else {
+                        //             setNavOpen((prev) => !prev);
+                        //         }
+                        //     }}
+                        //     aria-label={
+                        //         (showSidebarHamburger ? isSidebarOpen : navOpen)
+                        //             ? 'Close menu'
+                        //             : 'Open menu'
+                        //     }
+                        //     aria-expanded={showSidebarHamburger ? isSidebarOpen : navOpen}
+                        //     aria-controls={showSidebarHamburger ? 'sidebar' : 'main-nav'}
+                        // >
+                        //     <span className="bar"></span>
+                        //     <span className="bar"></span>
+                        //     <span className="bar"></span>
+                        // </button>
+                        <div></div>
                     )}
 
 

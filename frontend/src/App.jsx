@@ -10,6 +10,8 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import Header from './components/layout/Header';
 import ConsentPrompts from './components/issues/ConsentPrompts.jsx';
 import { SocketProvider } from './context/SocketContext.jsx';
+import TopUtilityBar from "./components/layout/TopUtilityBar";
+import GoogleTranslate from "./components/layout/GoogleTranslate";
 
 // Pages
 import Home from './pages/home/Home';
@@ -68,6 +70,11 @@ const App = () => {
           <AuthProvider>
             <SocketProvider>
               <ConsentPrompts />
+              <TopUtilityBar />
+              <div id="google_translate_element" className="tub-translate">
+                <GoogleTranslate />
+              </div>
+
               <BottomNavRole />
               <Routes>
                 {/* Public Routes */}
@@ -172,7 +179,13 @@ const App = () => {
                     </GovernmentRoute>
                   }
                 />
-                <Route path="/date" element={<Predict />} />
+                <Route
+                  path="/predict"
+                  element={
+                    <GovernmentRoute>
+                      <Predict />
+                    </GovernmentRoute>
+                  } />
                 <Route
                   path="/dashboard/alerts"
                   element={

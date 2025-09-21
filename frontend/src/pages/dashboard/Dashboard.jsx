@@ -402,6 +402,9 @@ const Dashboard = () => {
                                     <Link to="/dashboard/alerts/create" className="btn btn-outline">
                                         Create Alert
                                     </Link>
+                                    <Link to="/dashboard/date" className="btn btn-outline">
+                                        Create Alert
+                                    </Link>
                                 </>
                             )}
 

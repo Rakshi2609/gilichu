@@ -2,11 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "./Predict.module.css";
 
-// This is the single React component for the entire application.
-// It handles fetching the problem list and submitting the prediction request
-// directly to the FastAPI server.
 const App = () => {
-  // State variables for the form and the result
+
   const [date, setDate] = useState("");
   const [problem, setProblem] = useState("");
   const [problems, setProblems] = useState([]);
@@ -14,12 +11,10 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // URL of the FastAPI server
   const FASTAPI_URL = "http://localhost:8000";
 
-  // useEffect hook to fetch the list of problems when the component mounts
   useEffect(() => {
-    // Axios is used to make HTTP requests
+ 
     axios
       .get(`${FASTAPI_URL}/problems`)
       .then((res) => {

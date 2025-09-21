@@ -1,0 +1,26 @@
+.page-translator {
+    position: fixed;
+    top: 12px;
+    right: 24px;
+    z-index: 1200;
+    display: flex;
+    gap: 8px;
+}
+
+.translator-btn {
+    background: #fff;
+    color: #0a2e63;
+    border: 1.5px solid #e67e22;
+    border-radius: 5px;
+    padding: 4px 14px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.translator-btn.active,
+.translator-btn:hover {
+    background: #e67e22;
+    color: #fff;
+}
