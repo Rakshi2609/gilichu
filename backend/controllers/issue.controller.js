@@ -7,6 +7,48 @@ const { log, warn, error } = require('../utils/logger');
 const mailController = require('./mail.controller');
 
 class IssueController {
+    // Government map feed: unresolved issues with coordinates only
+    async getUnresolvedIssuesCoordinates(req, res) {
+        try {
+            if (!req.user || req.user.role !== 'government') {
+                return res.status(403).json({ success: false, error: 'Forbidden' });
+            }
+
+            // Canonical issues only (exclude merged duplicates), status not resolved
+            const filter = {
+                mergedInto: { $exists: false },
+                status: { $ne: 'resolved' },
+                // Ensure coordinates exist
+                'location.coordinates.0': { $exists: true },
+                'location.coordinates.1': { $exists: true }
+            };
+
+            const issues = await Issue.find(filter)
+                .select('_id title status category priority location.coordinates location.address thumbnailImage createdAt')
+                .lean();
+
+            const data = (issues || []).map(doc => {
+                const coords = Array.isArray(doc.location?.coordinates) ? doc.location.coordinates : [];
+                const [lng, lat] = coords;
+                return {
+                    id: doc._id,
+                    title: doc.title,
+                    status: doc.status,
+                    category: doc.category,
+                    priority: doc.priority || 'low',
+                    address: doc.location?.address || '',
+                    coordinates: { lat, lng },
+                    thumbnailImage: doc.thumbnailImage || null,
+                    date: doc.createdAt
+                };
+            }).filter(p => Number.isFinite(p.coordinates?.lat) && Number.isFinite(p.coordinates?.lng));
+
+            return res.json({ success: true, data });
+        } catch (e) {
+            console.error('[getUnresolvedIssuesCoordinates] error', e);
+            return res.status(500).json({ success: false, error: 'Failed to fetch unresolved issues for map', message: e.message });
+        }
+    }
     // Get all issues with comprehensive filtering and pagination
     async getAllIssues(req, res) {
         try {
