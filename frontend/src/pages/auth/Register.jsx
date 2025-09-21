@@ -37,34 +37,22 @@ const Register = () => {
     const validateForm = () => {
         const newErrors = {};
 
-        if (!formData.name.trim()) {
-            newErrors.name = 'Name is required';
-        }
-
+        if (!formData.name.trim()) newErrors.name = 'Name is required';
         if (!formData.email) {
             newErrors.email = 'Email is required';
         } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
             newErrors.email = 'Email is invalid';
         }
-
         if (!formData.password) {
             newErrors.password = 'Password is required';
         } else if (formData.password.length < 6) {
             newErrors.password = 'Password must be at least 6 characters';
         }
-
         if (formData.password !== formData.confirmPassword) {
             newErrors.confirmPassword = 'Passwords do not match';
         }
-
-        if (!formData.phone) {
-            newErrors.phone = 'Phone number is required';
-        }
-
-        if (!formData.address.trim()) {
-            newErrors.address = 'Address is required';
-        }
-
+        if (!formData.phone) newErrors.phone = 'Phone number is required';
+        if (!formData.address.trim()) newErrors.address = 'Address is required';
         if (formData.role === 'government' && !formData.department.trim()) {
             newErrors.department = 'Department is required for government officials';
         }
@@ -75,10 +63,7 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        if (!validateForm()) {
-            return;
-        }
+        if (!validateForm()) return;
 
         try {
             setIsSubmitting(true);
@@ -114,25 +99,25 @@ const Register = () => {
 
     return (
         <div className="auth-container">
-            <Link to="/" className="back-to-home">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M19 12H5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    <path d="M12 19L5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                Back to Home
-            </Link>
-
             <div className="auth-card register-card">
+                {/* ✅ Back link INSIDE card */}
+                <div className="auth-back-link">
+                    <Link to="/">
+                        <i className="fas fa-arrow-left"></i> Back to Home
+                    </Link>
+                </div>
+
                 <div className="auth-header">
                     <h2>Create an Account</h2>
                     <p>Join CivicPulse to report and track civic issues</p>
                 </div>
 
                 {errors.general && (
-                    <div className="alert alert-danger">{errors.general}</div>
+                    <div className="auth-error">{errors.general}</div>
                 )}
 
                 <form onSubmit={handleSubmit} className="auth-form">
+                    {/* Role Selector */}
                     <div className="form-group">
                         <label>Account Type</label>
                         <div className="role-selector">
@@ -153,6 +138,7 @@ const Register = () => {
                         </div>
                     </div>
 
+                    {/* Inputs */}
                     <div className="form-group">
                         <label htmlFor="name">Full Name</label>
                         <input
@@ -286,3 +272,4 @@ const Register = () => {
 };
 
 export default Register;
+    

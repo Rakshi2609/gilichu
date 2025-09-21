@@ -177,7 +177,7 @@ const Analytics = () => {
                             </div>
 
                             <div className="charts-grid">
-                                {/* Issues by Category */}
+                               
                                 <div className="chart-card">
                                     <h3>Issues by Category</h3>
                                     <div className="category-chart">

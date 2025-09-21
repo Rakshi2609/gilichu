@@ -27,7 +27,7 @@ const BottomNavGov = () => (
             <span className="icon"><IconAlert /></span>
             <span>Manage Alerts</span>
         </NavLink>
-        <NavLink to="/date" className={({ isActive }) => 'nav-item' + (isActive ? ' active' : '')}>
+        <NavLink to="/predict" className={({ isActive }) => 'nav-item' + (isActive ? ' active' : '')}>
             <span className="icon"><IconHourglass /></span>
             <span>Predict</span>
         </NavLink>

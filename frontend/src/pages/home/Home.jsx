@@ -1,13 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IconLocation, IconCamera, IconSearch, IconHandshake, IconChart, IconCalendar, IconThumbUp, IconBuilding, IconCertificate, IconShield, IconUser } from '../../components/common/Icons';
 import '../../styles/home.css';
 
 // Sample hero image - replace with actual image path when available
 import heroImage from '../../assets/react.svg';
+import ImageCarousel from './ImageCarousel';
 
 const Home = () => {
-    // const [searchQuery, setSearchQuery] = useState(''); // Commented out unused state
+    const [visitorCount, setVisitorCount] = useState(0);
+    const [popup, setPopup] = useState({ open: false, title: '', content: '' });
+
+    useEffect(() => {
+        // Fetch visitor count from the server
+        const fetchVisitorCount = async () => {
+            try {
+                const response = await fetch('/api/visitor/count');
+                const data = await response.json();
+                setVisitorCount(data.count);
+            } catch (error) {
+                console.error('Error fetching visitor count:', error);
+            }
+        };
+
+        fetchVisitorCount();
+    }, []);
 
     // Sample data for UI demonstration
     const recentIssues = [
@@ -57,13 +74,6 @@ const Home = () => {
         }
     ];
 
-    // Search functionality commented out since we removed the search form
-    // const handleSearch = (e) => {
-    //     e.preventDefault();
-    //     // Implement search functionality
-    //     console.log('Searching for:', searchQuery);
-    // };
-
     // Function to determine status class for styling
     const getStatusClass = (status) => {
         switch (status.toLowerCase()) {
@@ -92,6 +102,46 @@ const Home = () => {
         }
     };
 
+    // Popup content for each link
+    const popupDetails = {
+        about: {
+            title: "About CivicPulse",
+            content: "CivicPulse is a government initiative to empower citizens to report and track civic issues, ensuring transparency and accountability in urban governance."
+        },
+        how: {
+            title: "How It Works",
+            content: "Register as a citizen, report issues with photos and location, track progress, and receive notifications as your issue is resolved by the authorities."
+        },
+        faqs: {
+            title: "Frequently Asked Questions",
+            content: "Find answers to common questions about reporting issues, tracking status, registration, and using the CivicPulse platform."
+        },
+        contact: {
+            title: "Contact Us",
+            content: "For support or queries, email us at support@civicpulse.gov.in or call our helpline at 1800-123-456."
+        },
+        terms: {
+            title: "Terms & Conditions",
+            content: "By using CivicPulse, you agree to our terms and conditions regarding data usage, privacy, and responsible reporting."
+        },
+        privacy: {
+            title: "Privacy Policy",
+            content: "Your data is protected under government privacy regulations. We do not share your personal information with third parties."
+        }
+    };
+
+    // Handler to open popup
+    const handlePopup = (key) => {
+        setPopup({
+            open: true,
+            title: popupDetails[key].title,
+            content: popupDetails[key].content
+        });
+    };
+
+    // Handler to close popup
+    const closePopup = () => setPopup({ ...popup, open: false });
+
     return (
         <div className="home-page">
             {/* Top banner for government site */}
@@ -105,17 +155,16 @@ const Home = () => {
                 </div>
             </div>
 
-            {/* Main navigation */}
+
             <div className="main-navigation">
                 <div className="container">
                     <div className="nav-content">
-                        <div className="nav-left">
-                            <select className="language-selector" defaultValue="en">
+                        <div className="gov-subtitle">Ministry of Urban Development</div>
+                        {/* <div className="nav-left">
+                            <select className="language-selector" defaultValue="en" onChange={handleLanguageChange}>
                                 <option value="en">English</option>
                                 <option value="hi">हिंदी</option>
-                                <option value="ta">தமிழ்</option>
-                                <option value="te">తెలుగు</option>
-                                <option value="bn">বাংলা</option>
+
                             </select>
                             <button className="accessibility-btn" aria-label="Accessibility Options">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -124,11 +173,11 @@ const Home = () => {
                                     <path d="M8 12H16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
                             </button>
-                        </div>
-                        <nav className="main-nav">
+                        </div> */}
+                        {/* <nav className="main-nav">
                             <Link to="/" className="nav-item active">Home</Link>
                             <Link to="/about" className="nav-item">About</Link>
-                        </nav>
+                        </nav> */}
                         <div className="nav-right">
                             <Link to="/login" className="login-btn">Login</Link>
                             <Link to="/register" className="register-btn">Register</Link>
@@ -137,7 +186,13 @@ const Home = () => {
                 </div>
             </div>
 
+
+
+
+
+
             {/* Hero section with government branding */}
+            <ImageCarousel />
             <section className="hero-section">
                 <div className="container">
                     <div className="hero-grid">
@@ -147,8 +202,7 @@ const Home = () => {
                             </div>
                             <h1>Digital Governance for Urban Issues</h1>
                             <p>
-                                An official platform empowering citizens to report civic issues directly to
-                                government authorities. Track resolutions and participate in building better communities.
+                                An official platform empowering citizens to report civic issues directly to government authorities. Track resolutions and participate in building better communities.
                             </p>
 
                             {/* <div className="hero-search">
@@ -167,7 +221,6 @@ const Home = () => {
                                         </button>
                                     </form>
                                 </div> */}
-
                             <div className="hero-actions">
                                 <Link to="/register" className="btn btn-primary">
                                     Citizen Registration
@@ -215,37 +268,37 @@ const Home = () => {
                     </div>
 
                     <div className="services-grid">
-                        <Link to="/report-issue" className="service-card">
+                        <Link to="/" className="service-card">
                             <div className="service-icon"><IconCamera /></div>
                             <h3>Report Issue</h3>
                             <p>Submit civic problems with photos and location</p>
                         </Link>
 
-                        <Link to="/dashboard/my-issues" className="service-card">
+                        <Link to="/" className="service-card">
                             <div className="service-icon"><IconSearch /></div>
                             <h3>Track Issues</h3>
                             <p>Monitor the status of your reported issues</p>
                         </Link>
 
-                        <Link to="/departments" className="service-card">
+                        {/* <Link to="/" className="service-card">
                             <div className="service-icon"><IconBuilding /></div>
                             <h3>Department Directory</h3>
                             <p>Contact information for government departments</p>
-                        </Link>
+                        </Link> */}
 
-                        <Link to="/document-verification" className="service-card">
+                        {/* <Link to="/document-verification" className="service-card">
                             <div className="service-icon"><IconCertificate /></div>
                             <h3>Document Verification</h3>
                             <p>Verify official documents and certificates</p>
-                        </Link>
+                        </Link> */}
 
-                        <Link to="/public-safety" className="service-card">
+                        <Link to="/" className="service-card">
                             <div className="service-icon"><IconShield /></div>
                             <h3>Public Safety</h3>
                             <p>Emergency contacts and safety guidelines</p>
                         </Link>
 
-                        <Link to="/citizen-forum" className="service-card">
+                        <Link to="/" className="service-card">
                             <div className="service-icon"><IconUser /></div>
                             <h3>Citizen Forum</h3>
                             <p>Community discussions on civic matters</p>
@@ -259,7 +312,7 @@ const Home = () => {
                 <div className="container">
                     <div className="section-header with-line">
                         <h2>Recently Reported Issues</h2>
-                        <Link to="/issues" className="view-all-link">
+                        <Link to="/dashboard" className="view-all-link">
                             View All Issues <span className="arrow-right">→</span>
                         </Link>
                     </div>
@@ -274,7 +327,7 @@ const Home = () => {
 
                                 <div className="issue-body">
                                     <h3 className="issue-title">
-                                        <Link to={`/issues/${issue.id}`}>{issue.title}</Link>
+                                        {issue.title}
                                     </h3>
 
                                     <div className="issue-meta">
@@ -296,7 +349,7 @@ const Home = () => {
                                             <IconThumbUp />
                                             <span>{issue.upvotes} Supporters</span>
                                         </span>
-                                        <Link to={`/issues/${issue.id}`} className="view-details-link">
+                                        <Link to={`/dashboard`} className="view-details-link">
                                             View Details
                                         </Link>
                                     </div>
@@ -312,7 +365,7 @@ const Home = () => {
                 <div className="container">
                     <div className="section-header with-line">
                         <h2>Official Notifications</h2>
-                        <Link to="/alerts" className="view-all-link">
+                        <Link to="/dashboard" className="view-all-link">
                             View All Notifications <span className="arrow-right">→</span>
                         </Link>
                     </div>
@@ -330,7 +383,7 @@ const Home = () => {
                                         <span className="alert-date">Issued: {alert.date}</span>
                                     </div>
                                     <p className="alert-description">{alert.description}</p>
-                                    <Link to={`/alerts/${alert.id}`} className="alert-link">
+                                    <Link to={`/dashboard`} className="alert-link">
                                         Official Details <span className="arrow-right">→</span>
                                     </Link>
                                 </div>
@@ -424,12 +477,24 @@ const Home = () => {
                         <div className="resource-col">
                             <h3>Quick Links</h3>
                             <ul className="resource-links">
-                                <li><Link to="/about">About CivicPulse</Link></li>
-                                <li><Link to="/how-it-works">How It Works</Link></li>
-                                <li><Link to="/faqs">Frequently Asked Questions</Link></li>
-                                <li><Link to="/contact">Contact Us</Link></li>
-                                <li><Link to="/terms">Terms & Conditions</Link></li>
-                                <li><Link to="/privacy">Privacy Policy</Link></li>
+                                <li>
+                                    <button className="popup-link" onClick={() => handlePopup('about')}>About CivicPulse</button>
+                                </li>
+                                <li>
+                                    <button className="popup-link" onClick={() => handlePopup('how')}>How It Works</button>
+                                </li>
+                                <li>
+                                    <button className="popup-link" onClick={() => handlePopup('faqs')}>Frequently Asked Questions</button>
+                                </li>
+                                <li>
+                                    <button className="popup-link" onClick={() => handlePopup('contact')}>Contact Us</button>
+                                </li>
+                                <li>
+                                    <button className="popup-link" onClick={() => handlePopup('terms')}>Terms & Conditions</button>
+                                </li>
+                                <li>
+                                    <button className="popup-link" onClick={() => handlePopup('privacy')}>Privacy Policy</button>
+                                </li>
                             </ul>
                         </div>
 
@@ -486,6 +551,17 @@ const Home = () => {
                 </div>
             </section>
 
+            {/* Popup Modal */}
+            {popup.open && (
+                <div className="popup-overlay" onClick={closePopup}>
+                    <div className="popup-modal" onClick={e => e.stopPropagation()}>
+                        <button className="popup-close" onClick={closePopup} aria-label="Close">&times;</button>
+                        <h2>{popup.title}</h2>
+                        <p>{popup.content}</p>
+                    </div>
+                </div>
+            )}
+
             {/* Official footer */}
             <div className="gov-footer">
                 <div className="container">
@@ -501,7 +577,9 @@ const Home = () => {
                         <div className="gov-footer-info">
                             <p>© 2025 CivicPulse. All Rights Reserved.</p>
                             <p>Last Updated: September 6, 2025</p>
-                            <p>Site Visitors: 12,458,785</p>
+                            <p>
+                                Site Visitors: {visitorCount !== null ? visitorCount : "Loading..."}
+                            </p>
                         </div>
                     </div>
                 </div>

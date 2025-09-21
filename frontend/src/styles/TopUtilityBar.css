@@ -1,0 +1,147 @@
+/* TopUtilityBar.css */
+
+/* Base styles */
+.top-utility-bar-gov {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    background-color: #f1f1f1;
+    border-bottom: 1px solid #dcdcdc;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    flex-wrap: wrap;
+    /* allow wrapping on small screens */
+}
+
+.top-utility-left,
+.top-utility-right {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    /* allow items to wrap */
+}
+
+.gov-india-label {
+    font-weight: bold;
+    color: #2e6da4;
+}
+
+.top-utility-right {
+    gap: 8px;
+}
+
+.tub-label {
+    margin-right: 8px;
+    font-weight: 500;
+}
+
+.tub-btn {
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.2s ease-in-out;
+    font-size: 14px;
+}
+
+.tub-btn:hover {
+    background-color: #e0e0e0;
+    border-color: #999;
+}
+
+.tub-divider {
+    width: 1px;
+    height: 18px;
+    background-color: #ccc;
+    margin: 0 8px;
+}
+
+/* Dark Mode */
+body.dark-mode .top-utility-bar-gov {
+    background-color: #333;
+    color: #f1f1f1;
+    border-bottom: 1px solid #555;
+}
+
+body.dark-mode .tub-btn {
+    background-color: #555;
+    border-color: #666;
+    color: #f1f1f1;
+}
+
+body.dark-mode .tub-btn:hover {
+    background-color: #777;
+    border-color: #888;
+}
+
+body.dark-mode .gov-india-label {
+    color: #f1f1f1;
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+    .top-utility-bar-gov {
+        padding: 6px 12px 6px 12px;
+        font-size: 0.98rem;
+        gap: 8px;
+    }
+
+    .top-utility-left .gov-india-label {
+        font-size: 1rem;
+    }
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+    .top-utility-bar-gov {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 8px 8px 8px 8px;
+        height: auto;
+        gap: 6px;
+    }
+
+    .top-utility-right {
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 4px;
+    }
+
+    #google_translate_element {
+        margin-left: 0;
+        margin-top: 6px;
+        min-width: 120px;
+    }
+
+    .tub-label {
+        margin-right: 4px;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 420px) {
+    .top-utility-bar-gov {
+        padding: 6px 2vw 6px 2vw;
+        font-size: 0.93rem;
+        gap: 4px;
+    }
+
+    .top-utility-left .gov-india-label {
+        font-size: 0.98rem;
+    }
+
+    .top-utility-right {
+        gap: 4px;
+    }
+
+    .tub-btn {
+        padding: 2px 6px;
+        font-size: 0.95rem;
+    }
+
+    #google_translate_element {
+        min-width: 90px;
+    }
+}
