@@ -134,4 +134,3 @@ pip-wheel-metadata/
 .idea/
 .DS_Store
 *.log
-config.bat
